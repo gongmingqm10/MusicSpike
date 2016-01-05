@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/song_image"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:scaleType="centerCrop"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/song_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/song_image"
+        android:textColor="#242424"
+        android:textSize="16sp"
+        tools:text="歌曲名称" />
+
+    <TextView
+        android:id="@+id/song_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/song_name"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/song_name"
+        android:text="@string/download_finished"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/song_download_btn"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignBottom="@id/song_image"
+        android:layout_toRightOf="@id/song_image"
+        android:padding="6dp"
+        android:src="@mipmap/ic_cloud_download_black_48dp" />
+
+    <ImageView
+        android:id="@+id/song_play_btn"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignTop="@id/song_download_btn"
+        android:layout_toRightOf="@id/song_download_btn"
+        android:padding="6dp"
+        android:src="@mipmap/ic_headset_mic_black_48dp" />
+
+
+</RelativeLayout>
