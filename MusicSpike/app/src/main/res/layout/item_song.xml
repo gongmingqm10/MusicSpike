@@ -32,6 +32,7 @@
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/song_name"
         android:text="@string/download_finished"
+        android:visibility="gone"
         android:textSize="16sp" />
 
     <ImageView
@@ -42,15 +43,5 @@
         android:layout_toRightOf="@id/song_image"
         android:padding="6dp"
         android:src="@mipmap/ic_cloud_download_black_48dp" />
-
-    <ImageView
-        android:id="@+id/song_play_btn"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignTop="@id/song_download_btn"
-        android:layout_toRightOf="@id/song_download_btn"
-        android:padding="6dp"
-        android:src="@mipmap/ic_headset_mic_black_48dp" />
-
 
 </RelativeLayout>

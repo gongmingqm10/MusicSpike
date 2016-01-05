@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/partial_song_image"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        tools:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/partial_song_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#212121"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/partial_song_image"
+        android:layout_marginLeft="8dp"
+        tools:text="静静的看着你装逼"/>
+
+    <ImageView
+        android:id="@+id/partial_song_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/playbar_btn_next"
+        />
+
+    <ImageView
+        android:id="@+id/partial_song_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/partial_song_next"
+        android:src="@mipmap/playbar_btn_play"
+        />
+</RelativeLayout>

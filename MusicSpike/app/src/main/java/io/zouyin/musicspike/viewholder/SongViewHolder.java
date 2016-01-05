@@ -21,9 +21,6 @@ public class SongViewHolder extends BaseViewHolder<Song> {
     @Bind(R.id.song_download_btn)
     ImageView downloadBtn;
 
-    @Bind(R.id.song_play_btn)
-    ImageView playBtn;
-
     private SongActionListener listener;
 
     public SongViewHolder(View view, SongActionListener listener) {
@@ -33,7 +30,6 @@ public class SongViewHolder extends BaseViewHolder<Song> {
 
     @Override
     public void populate(final Song data) {
-
         songNameText.setText(data.getName());
         Picasso.with(context).load(data.getImage()).into(songImageView);
 
@@ -49,19 +45,9 @@ public class SongViewHolder extends BaseViewHolder<Song> {
                 }
             }
         });
-
-        playBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.playSong(data);
-                }
-            }
-        });
     }
 
     public interface SongActionListener {
         void downloadSong(Song song);
-        void playSong(Song song);
     }
 }

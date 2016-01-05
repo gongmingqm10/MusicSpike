@@ -6,8 +6,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import java.io.IOException;
@@ -15,11 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnItemClick;
 import io.zouyin.musicspike.R;
 import io.zouyin.musicspike.adapter.SongListAdapter;
 import io.zouyin.musicspike.model.Song;
 import io.zouyin.musicspike.network.RestAPI;
 import io.zouyin.musicspike.network.callback.BaseCallBack;
+import io.zouyin.musicspike.view.MusicPlayerPanel;
 import io.zouyin.musicspike.viewholder.SongViewHolder;
 import retrofit.Call;
 import retrofit.Response;
@@ -30,8 +32,12 @@ public class MainActivity extends BaseActivity {
     @Bind(android.R.id.list)
     ListView songsList;
 
+    @Bind(R.id.player_panel)
+    View playerView;
+
+    private MusicPlayerPanel playerPanel;
+
     private DownloadManager downloadManager;
-    private MediaPlayer mediaPlayer;
 
     private SongListAdapter songListAdapter;
 
@@ -41,7 +47,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        mediaPlayer = new MediaPlayer();
 
         songListAdapter = new SongListAdapter(new ArrayList<Song>(), songActionListener);
         songsList.setAdapter(songListAdapter);
@@ -66,12 +71,18 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @OnItemClick(android.R.id.list)
+    protected void clickItemAtPosition(int position) {
+        playerPanel.play(position);
+    }
+
     private void requestSongs() {
         Call<List<Song>> songListCall = RestAPI.getInstance().getQiniuService().listSongs();
         songListCall.enqueue(new BaseCallBack<List<Song>>() {
             @Override
             public void onResponse(Response<List<Song>> response, Retrofit retrofit) {
                 songListAdapter.addAll(response.body());
+                playerPanel = new MusicPlayerPanel(playerView, response.body());
             }
         });
     }
@@ -80,27 +91,14 @@ public class MainActivity extends BaseActivity {
         @Override
         public void downloadSong(Song song) {
             showToast(R.string.start_download_song);
-            DownloadManager.Request request  = new DownloadManager.Request(Uri.parse(song.getUrl()));
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(song.getUrl()));
             downloadManager.enqueue(request);
         }
-
-        @Override
-        public void playSong(Song song) {
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(MainActivity.this, Uri.parse(song.getUrl()));
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mp.start();
-                    }
-                });
-                mediaPlayer.prepareAsync();
-            } catch (IOException e) {
-                e.printStackTrace();
-                showToast(e.toString());
-            }
-
-        }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        playerPanel.onDestroy();
+    }
 }
