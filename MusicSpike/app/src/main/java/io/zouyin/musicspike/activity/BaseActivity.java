@@ -14,7 +14,11 @@ public class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
     public void showToast(@StringRes int messageId) {
-        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+        showToast(getString(messageId));
     }
 }

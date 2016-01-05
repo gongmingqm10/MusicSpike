@@ -2,6 +2,7 @@ package io.zouyin.musicspike.activity;
 
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class MainActivity extends BaseActivity {
     ListView songsList;
 
     private DownloadManager downloadManager;
+    private MediaPlayer mediaPlayer;
 
     private SongListAdapter songListAdapter;
 
@@ -38,6 +41,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        mediaPlayer = new MediaPlayer();
 
         songListAdapter = new SongListAdapter(new ArrayList<Song>(), songActionListener);
         songsList.setAdapter(songListAdapter);
@@ -82,6 +86,20 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public void playSong(Song song) {
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(MainActivity.this, Uri.parse(song.getUrl()));
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mp.start();
+                    }
+                });
+                mediaPlayer.prepareAsync();
+            } catch (IOException e) {
+                e.printStackTrace();
+                showToast(e.toString());
+            }
 
         }
     };
